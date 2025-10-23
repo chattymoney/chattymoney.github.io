@@ -7,96 +7,131 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg:#03041a;
+    :root {
+      --bg: #03041a;
       --panel: rgba(255,255,255,0.04);
       --muted: rgba(255,255,255,0.6);
       --accent: #8ab4ff;
       --glass: rgba(255,255,255,0.03);
-      --radius:12px;
+      --radius: 12px;
       color-scheme: dark;
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-    html,body{height:100%;margin:0;background:var(--bg);color:#e6eef8}
-    /* 星空背景 */
-    html,body{
-  height:100%;
-  margin:0;
-  background: url('assets/bg-stars.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color:#e6eef8;
-}
-
-    .container{display:grid;grid-template-columns:260px 1fr;gap:28px;max-width:1200px;margin:36px auto;padding:24px}
-
-    /* 左侧导航 */
-    .nav{background:var(--panel);border-radius:var(--radius);padding:20px;height:calc(100vh - 72px);box-shadow: 0 6px 30px rgba(3,4,26,0.6);position:sticky;top:36px;overflow:auto}
-    .logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-    .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7b61ff,#3ac7ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
-    .name{font-weight:600}
-    .nav a{display:block;padding:10px 12px;border-radius:10px;color:var(--muted);text-decoration:none;margin:6px 0}
-    .nav a.active, .nav a:hover{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#fff}
-    .nav .section-title{font-size:12px;color:var(--muted);margin:14px 2px 6px}
-
-    /* 右侧主体 */
-    main{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);min-height:70vh}
-    header.main-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    header.main-head h1{margin:0;font-size:20px}
-    header.main-head p{margin:0;color:var(--muted);font-size:13px}
-
-    .card{background:var(--glass);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 4px 18px rgba(2,6,23,0.5)}
-
-    /* 帖子列表 */
-    .post{display:flex;flex-direction:column;gap:8px}
-    .post .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--muted)}
-    .tags{display:flex;gap:8px;flex-wrap:wrap}
-    .tag{padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
-
-    /* 资源列表 */
-    .resources ul{list-style:none;padding:0;margin:0}
-    .resources li{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent}
-    .resources a{color:var(--accent);text-decoration:none}
-
-    /* 布局在窄屏 */
-    @media (max-width:880px){
-      .container{grid-template-columns:1fr;padding:16px}
-      .nav{position:relative;height:auto;display:flex;gap:8px;overflow:auto}
-      .nav a{white-space:nowrap}
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: url("assets/bg-stars.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #e6eef8;
     }
 
-    footer{margin-top:18px;padding:14px;color:var(--muted);font-size:13px;text-align:center}
+    .container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 28px;
+      max-width: 1200px;
+      margin: 36px auto;
+      padding: 24px;
+    }
 
-    /* 小交互 */
-    .search{display:flex;gap:8px;align-items:center}
-    .search input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:inherit}
+    /* 左侧导航 */
+    .nav {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      height: calc(100vh - 72px);
+      box-shadow: 0 6px 30px rgba(3,4,26,0.6);
+      position: sticky;
+      top: 36px;
+      overflow: auto;
+    }
+    .logo { margin-bottom: 14px; }
+    .name { font-weight: 600; }
+    .nav a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      margin: 6px 0;
+    }
+    .nav a.active, .nav a:hover {
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color: #fff;
+    }
 
-    /* 空状态 */
-    .empty{color:var(--muted);padding:24px;text-align:center}
+    /* 主体 */
+    main {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius: var(--radius);
+      min-height: 70vh;
+    }
+
+    header.main-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    header.main-head h1 { margin: 0; font-size: 20px; }
+    header.main-head p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .card {
+      background: var(--glass);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 18px rgba(2,6,23,0.5);
+    }
+
+    .post { display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+    .post:hover h3 { color: var(--accent); }
+
+    .meta { display: flex; gap: 12px; align-items: center; font-size: 13px; color: var(--muted); }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,0.03); font-size: 12px; }
+
+    .resources ul { list-style: none; padding: 0; margin: 0; }
+    .resources li { padding: 10px; border-radius: 10px; margin-bottom: 8px; background: transparent; }
+    .resources a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width:880px) {
+      .container { grid-template-columns: 1fr; padding: 16px; }
+      .nav { position: relative; height: auto; display: flex; gap: 8px; overflow-x: auto; }
+      .nav a { white-space: nowrap; }
+    }
+
+    footer { margin-top: 18px; padding: 14px; color: var(--muted); font-size: 13px; text-align: center; }
+
+    .search { display: flex; gap: 8px; align-items: center; }
+    .search input {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: inherit;
+    }
+
+    .empty { color: var(--muted); padding: 24px; text-align: center; }
+
+    #post-detail a { color: var(--accent); }
   </style>
 </head>
-<body>
-  <div class="nebula" aria-hidden></div>
-  <div class="container">
-    <aside class="nav" role="navigation" aria-label="主导航">
-      <div class="logo">
-        <div>
-          <div class="name">Qian Yi</div>
-          <div style="font-size:12px;color:var(--muted)">学习 · 记录 · 分享</div>
-        </div>
-      </div>
 
+<body>
+  <div class="container">
+    <aside class="nav">
+      <div class="logo">
+        <div class="name">Qian Yi</div>
+        <div style="font-size:12px;color:var(--muted)">学习 · 记录 · 分享</div>
+      </div>
       <nav>
         <a href="#home" class="active" data-tab="home">🏠 主页</a>
         <a href="#resources" data-tab="resources">📚 资源列表</a>
         <a href="#tags" data-tab="tags">🏷️ 标签</a>
         <a href="#contact" data-tab="contact">✉️ 联系方式</a>
       </nav>
+    </aside>
 
-      </aside>
-
-    <main id="app" role="main">
-      <!-- 主页 -->
+    <main id="app">
       <section id="home" class="card" data-view>
         <header class="main-head">
           <div>
@@ -107,176 +142,137 @@
             <input id="filter-input" placeholder="搜索标题或摘要 / 按回车过滤" aria-label="搜索记录">
           </div>
         </header>
-
-        <div id="posts" aria-live="polite">
-          <!-- JS 渲染文章列表 -->
-        </div>
+        <div id="posts"></div>
       </section>
 
-      <!-- 资源 -->
       <section id="resources" class="card" data-view hidden>
         <h2>资源列表</h2>
-        <p style="color:var(--muted);margin-top:6px">文献、书籍、网站、研究人员等 — 用作资料收藏与外部书签。</p>
-        <div class="resources" id="resource-list" style="margin-top:12px">
-          <!-- JS 渲染资源 -->
-        </div>
+        <p style="color:var(--muted)">文献、书籍、网站、研究人员等 — 用作资料收藏与外部书签。</p>
+        <div class="resources" id="resource-list" style="margin-top:12px"></div>
       </section>
 
-      <!-- 标签 -->
       <section id="tags" class="card" data-view hidden>
         <h2>标签</h2>
-        <p style="color:var(--muted);margin-top:6px">点击某个标签以查看相关记录。</p>
+        <p style="color:var(--muted)">点击某个标签以查看相关记录。</p>
         <div id="tag-cloud" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"></div>
       </section>
 
-      <!-- 联系 -->
       <section id="contact" class="card" data-view hidden>
         <h2>联系方式</h2>
-        <p style="color:var(--muted);margin-top:6px">欢迎使用该页面记录、收藏与交流。如需联系，请通过邮箱：</p>
-        <p style="margin-top:12px"><a href="mailto:qian.yi@example.com">qian.yi@example.com</a></p>
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
-        <p style="color:var(--muted)">说明：这是一个静态个人主页模板示例。把文章数据放到 <code>data.posts</code> 数组中即可管理。部署到 GitHub Pages 时，将文件放到仓库根目录并启用 Pages 即可。</p>
+        <p style="color:var(--muted)">邮箱：<a href="mailto:qian.yi@example.com">qian.yi@example.com</a></p>
       </section>
 
-      <footer>
-        © 2025 Qian Yi. Some rights reserved.
-      </footer>
+      <!-- Markdown 渲染区 -->
+      <section id="post-detail" class="card" data-view hidden></section>
+
+      <footer>© 2025 Qian Yi. Some rights reserved.</footer>
     </main>
   </div>
 
+  <!-- ✅ 引入 marked.js（Markdown 渲染器） -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <script>
-    /* ----- 示例数据：把你自己的文章与资源替换到这里 ----- */
-    // 加载文章索引
-async function loadPosts() {
-  try {
-    const res = await fetch('posts/index.json');
-    data.posts = await res.json();
-    renderPosts();
-  } catch (e) {
-    document.getElementById('post-list').innerHTML = '<p>无法加载文章索引。</p>';
-  }
-}
-  // 加载 Markdown 并渲染
-async function showPostDetail(url) {
-  const sec = document.getElementById('post-detail');
-  document.querySelectorAll('[data-view]').forEach(s => s.hidden = true);
-  sec.hidden = false;
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
-    sec.innerHTML = marked.parse(text) + '<p><a href="#" onclick="showView(\'home\')">← 返回首页</a></p>';
-  } catch {
-    sec.innerHTML = '<p>无法加载文章内容。</p>';
-  }
-}
-// 加载资源列表
-async function loadResources() {
-  try {
-    const res = await fetch('resources/index.json');
-    data.resources = await res.json();
-  } catch {
-    data.resources = [];
-  }
-}
+    const data = { posts: [], resources: [] };
 
-    /* 渲染文章列表 */
-    const postsEl = document.getElementById('posts');
-    function renderPosts(list){
-      if(!list || list.length===0){postsEl.innerHTML='<div class="empty">当前没有记录。点击「新建记录（演示）」添加示例。</div>';return}
-      // 按日期降序
-      list.sort((a,b)=> new Date(b.date) - new Date(a.date));
-      postsEl.innerHTML = list.map(p=>{
-        const tagHtml = (p.tags||[]).map(t=>`<span class="tag" data-tag="${t}">${t}</span>`).join('');
-        return `
-          <article class="card post" id="post-${p.id}">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start">
-              <div>
-                <h3 style="margin:0">${p.title}</h3>
-                <div class="meta">
-                  <time datetime="${p.date}">${p.date}</time>
-                </div>
-              </div>
-              <div style="font-size:13px;color:var(--muted);">${p.tags?p.tags.join(' · '):''}</div>
-            </div>
-            <p style="margin:6px 0 0;color:var(--muted)">${p.summary}</p>
-            <div style="margin-top:8px" class="tags">${tagHtml}</div>
-          </article>
-        `
-      }).join('\n');
-
-      // 标签点击跳转
-      document.querySelectorAll('[data-tag]').forEach(el=>{
-        el.addEventListener('click',()=>{
-          const tag = el.getAttribute('data-tag');
-          showTab('tags');
-          highlightTag(tag);
-        })
-      })
-    }
-
-    /* 渲染资源 */
-    function renderResources(){
-      const el = document.getElementById('resource-list');
-      if(!data.resources || data.resources.length===0){el.innerHTML='<div class="empty">暂无收藏的资源。</div>';return}
-      el.innerHTML = '<ul>'+data.resources.map(r=>`<li><strong>[${r.type}]</strong> <a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a></li>`).join('')+'</ul>';
-    }
-
-    /* 渲染标签云 */
-    function renderTags(){
-      const cloud = document.getElementById('tag-cloud');
-      const counts = {};
-      (data.posts||[]).forEach(p=> (p.tags||[]).forEach(t=> counts[t]= (counts[t]||0)+1));
-      const tags = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-      if(tags.length===0){cloud.innerHTML='<div class="empty">暂无标签。</div>';return}
-      cloud.innerHTML = tags.map(t=>`<button class="tag" data-tag="${t}" style="cursor:pointer">${t} (${counts[t]})</button>`).join(' ');
-      cloud.querySelectorAll('button[data-tag]').forEach(btn=>btn.addEventListener('click',()=>{
-        const tag = btn.getAttribute('data-tag');
-        highlightTag(tag);
-        showTab('home');
-        // 滚到首个相关文章
-        const first = document.querySelector(`#posts .tag[data-tag="${tag}"]`);
-        if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      }))
-    }
-
-    /* 标签高亮并过滤帖子 */
-    function highlightTag(tag){
-      const allTags = document.querySelectorAll('.tag');
-      allTags.forEach(t=> t.style.outline = '');
-      document.querySelectorAll(`.tag[data-tag=\"${tag}\"]`).forEach(el=> el.style.outline = '2px solid rgba(138,180,255,0.18)');
-      // 过滤显示包含该标签的文章
-      const filtered = data.posts.filter(p=> (p.tags||[]).includes(tag));
-      renderPosts(filtered);
-    }
-
-    // 导航切换
+    // 切换视图
     function showTab(name){
       document.querySelectorAll('[data-view]').forEach(s=> s.hidden = s.id !== name);
       document.querySelectorAll('.nav a').forEach(a=> a.classList.toggle('active', a.getAttribute('data-tab')===name));
     }
 
-    document.querySelectorAll('.nav a').forEach(a=> a.addEventListener('click',(e)=>{
-      e.preventDefault(); const t = a.getAttribute('data-tab'); showTab(t);
-    }))
+    document.querySelectorAll('.nav a').forEach(a=>{
+      a.addEventListener('click',e=>{
+        e.preventDefault();
+        showTab(a.dataset.tab);
+      });
+    });
+
+    // 加载文章索引
+    async function loadPosts(){
+      try {
+        const res = await fetch('posts/index.json');
+        data.posts = await res.json();
+        renderPosts(data.posts);
+        renderTags();
+      } catch(e){
+        document.getElementById('posts').innerHTML='<p>无法加载文章索引。</p>';
+      }
+    }
+
+    // 渲染文章列表
+    function renderPosts(list){
+      const el = document.getElementById('posts');
+      if(!list?.length){el.innerHTML='<div class="empty">暂无记录。</div>';return;}
+      list.sort((a,b)=>new Date(b.date)-new Date(a.date));
+      el.innerHTML = list.map(p=>`
+        <article class="card post" onclick="showPostDetail('${p.url}')">
+          <h3>${p.title}</h3>
+          <div class="meta"><time>${p.date}</time></div>
+          <p style="color:var(--muted)">${p.summary}</p>
+          <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </article>
+      `).join('');
+    }
+
+    // 显示 Markdown 内容
+    async function showPostDetail(url){
+      document.querySelectorAll('[data-view]').forEach(s=> s.hidden=true);
+      const sec=document.getElementById('post-detail');
+      sec.hidden=false;
+      try {
+        const res=await fetch(url);
+        const text=await res.text();
+        sec.innerHTML = marked.parse(text) + `<p><a href="#" onclick="showTab('home')">← 返回首页</a></p>`;
+      } catch {
+        sec.innerHTML='<p>无法加载文章内容。</p>';
+      }
+    }
+
+    // 加载资源
+    async function loadResources(){
+      try {
+        const res = await fetch('resources/index.json');
+        data.resources = await res.json();
+        renderResources();
+      } catch { data.resources=[]; }
+    }
+
+    function renderResources(){
+      const el=document.getElementById('resource-list');
+      if(!data.resources.length){el.innerHTML='<div class="empty">暂无资源。</div>';return;}
+      el.innerHTML='<ul>'+data.resources.map(r=>`<li><strong>[${r.type}]</strong> <a href="${r.url}" target="_blank">${r.title}</a></li>`).join('')+'</ul>';
+    }
+
+    // 标签云
+    function renderTags(){
+      const cloud=document.getElementById('tag-cloud');
+      const counts={};
+      data.posts.forEach(p=>(p.tags||[]).forEach(t=>counts[t]=(counts[t]||0)+1));
+      const tags=Object.keys(counts);
+      if(!tags.length){cloud.innerHTML='<div class="empty">暂无标签。</div>';return;}
+      cloud.innerHTML=tags.map(t=>`<button class="tag" onclick="filterByTag('${t}')">${t} (${counts[t]})</button>`).join('');
+    }
+
+    function filterByTag(tag){
+      const filtered=data.posts.filter(p=>(p.tags||[]).includes(tag));
+      showTab('home');
+      renderPosts(filtered);
+    }
 
     // 搜索
-    document.getElementById('filter-input').addEventListener('keydown', (e)=>{
-      if(e.key=== 'Enter'){
-        const q = e.target.value.trim().toLowerCase();
-        if(!q){ renderPosts(data.posts); return }
-        const filtered = data.posts.filter(p=> (p.title+p.summary+(p.tags||[]).join(' ')).toLowerCase().includes(q));
-        renderPosts(filtered);
+    document.getElementById('filter-input').addEventListener('keydown', e=>{
+      if(e.key==='Enter'){
+        const q=e.target.value.trim().toLowerCase();
+        if(!q){renderPosts(data.posts);return;}
+        const f=data.posts.filter(p=>(p.title+p.summary+(p.tags||[]).join(' ')).toLowerCase().includes(q));
+        renderPosts(f);
       }
-    })
+    });
 
-
-    // 首次渲染
-    renderPosts(data.posts);
-    renderResources();
-    renderTags();
-
-    // 可选：把 data 导出到 localStorage（取消注释以启用）
-    // localStorage.setItem('qiy-data', JSON.stringify(data));
+    // 初始化
+    loadPosts();
+    loadResources();
   </script>
 </body>
 </html>
