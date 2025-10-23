@@ -1,281 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Qian Yi — 记录与资料</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qian Yi — 研究笔记与资料索引</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    :root{
-      --bg:#03041a;
-      --panel: rgba(255,255,255,0.04);
-      --muted: rgba(255,255,255,0.6);
-      --accent: #8ab4ff;
-      --glass: rgba(255,255,255,0.03);
-      --radius:12px;
-      color-scheme: dark;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: url('assets/bg-stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #e6eef8;
+      font-family: 'Inter', sans-serif;
     }
-    html,body{height:100%;margin:0;background:var(--bg);color:#e6eef8}
-    /* 星空背景 */
-    body::before{
-      content:'';position:fixed;inset:0;z-index:-2;
-      background: radial-gradient(ellipse at 20% 10%, rgba(255,255,255,0.03) 0px, transparent 1px),
-                  radial-gradient(ellipse at 80% 40%, rgba(255,255,255,0.02) 0px, transparent 1px);
-      background-size: 2px 2px, 3px 3px;
-      opacity:0.9;
+    .sidebar {
+      backdrop-filter: blur(8px);
+      background: rgba(30, 30, 46, 0.75);
+      min-width: 220px;
     }
-    /* 轻微动感星云 */
-    .nebula{position:fixed;inset:0;z-index:-3;filter:blur(40px);opacity:0.35;background:
-      radial-gradient(circle at 10% 20%, rgba(120,90,200,0.18), transparent 8%),
-      radial-gradient(circle at 80% 80%, rgba(70,140,200,0.14), transparent 12%);
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
     }
-
-    .container{display:grid;grid-template-columns:260px 1fr;gap:28px;max-width:1200px;margin:36px auto;padding:24px}
-
-    /* 左侧导航 */
-    .nav{background:var(--panel);border-radius:var(--radius);padding:20px;height:calc(100vh - 72px);box-shadow: 0 6px 30px rgba(3,4,26,0.6);position:sticky;top:36px;overflow:auto}
-    .logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-    .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7b61ff,#3ac7ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
-    .name{font-weight:600}
-    .nav a{display:block;padding:10px 12px;border-radius:10px;color:var(--muted);text-decoration:none;margin:6px 0}
-    .nav a.active, .nav a:hover{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#fff}
-    .nav .section-title{font-size:12px;color:var(--muted);margin:14px 2px 6px}
-
-    /* 右侧主体 */
-    main{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);min-height:70vh}
-    header.main-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    header.main-head h1{margin:0;font-size:20px}
-    header.main-head p{margin:0;color:var(--muted);font-size:13px}
-
-    .card{background:var(--glass);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 4px 18px rgba(2,6,23,0.5)}
-
-    /* 帖子列表 */
-    .post{display:flex;flex-direction:column;gap:8px}
-    .post .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--muted)}
-    .tags{display:flex;gap:8px;flex-wrap:wrap}
-    .tag{padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
-
-    /* 资源列表 */
-    .resources ul{list-style:none;padding:0;margin:0}
-    .resources li{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent}
-    .resources a{color:var(--accent);text-decoration:none}
-
-    /* 布局在窄屏 */
-    @media (max-width:880px){
-      .container{grid-template-columns:1fr;padding:16px}
-      .nav{position:relative;height:auto;display:flex;gap:8px;overflow:auto}
-      .nav a{white-space:nowrap}
+    .link {
+      cursor: pointer;
+      transition: color 0.2s;
     }
-
-    footer{margin-top:18px;padding:14px;color:var(--muted);font-size:13px;text-align:center}
-
-    /* 小交互 */
-    .search{display:flex;gap:8px;align-items:center}
-    .search input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:inherit}
-
-    /* 空状态 */
-    .empty{color:var(--muted);padding:24px;text-align:center}
+    .link:hover {
+      color: #7dd3fc;
+    }
+    pre code {
+      background: rgba(255,255,255,0.1);
+      padding: 0.5em;
+      border-radius: 6px;
+      display: block;
+      overflow-x: auto;
+    }
   </style>
 </head>
 <body>
-  <div class="nebula" aria-hidden></div>
-  <div class="container">
-    <aside class="nav" role="navigation" aria-label="主导航">
-      <div class="logo">
-        <div class="avatar">QY</div>
-        <div>
-          <div class="name">Qian Yi</div>
-          <div style="font-size:12px;color:var(--muted)">研究 · 记录 · 书签</div>
-        </div>
-      </div>
-
+  <div id="app" class="flex h-screen">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar p-4 text-gray-200">
+      <h1 class="text-2xl font-bold mb-6">Qian Yi</h1>
       <nav>
-        <a href="#home" class="active" data-tab="home">🏠 主页</a>
-        <a href="#resources" data-tab="resources">📚 资源列表</a>
-        <a href="#tags" data-tab="tags">🏷️ 标签</a>
-        <a href="#contact" data-tab="contact">✉️ 联系方式</a>
+        <ul>
+          <li class="mb-3 link" @click="currentView='home'">📘 首页</li>
+          <li class="mb-3 link" @click="currentView='resources'">📂 资源索引</li>
+          <li class="mb-3 link" @click="currentView='about'">👤 关于</li>
+        </ul>
       </nav>
-
-      <div class="section-title">快速操作</div>
-      <a href="#new" id="new-post">＋ 新建记录（演示）</a>
-      <div class="section-title">说明</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.5">这是一个静态单页模板，适合部署到 GitHub Pages（仓库名: <code>username.github.io</code>），文章数据由页面内 JS 管理，方便离线编辑。</div>
     </aside>
 
-    <main id="app" role="main">
-      <!-- 主页 -->
-      <section id="home" class="card" data-view>
-        <header class="main-head">
-          <div>
-            <h1>最新记录</h1>
-            <p>按更新日期排列 — 最近的记录显示在上方</p>
-          </div>
-          <div class="search">
-            <input id="filter-input" placeholder="搜索标题或摘要 / 按回车过滤" aria-label="搜索记录">
-          </div>
-        </header>
-
-        <div id="posts" aria-live="polite">
-          <!-- JS 渲染文章列表 -->
+    <!-- 主体内容 -->
+    <main class="flex-1 overflow-y-auto p-6">
+      <!-- 首页：文章列表 -->
+      <section v-if="currentView==='home'">
+        <h2 class="text-3xl font-bold mb-4">研究笔记</h2>
+        <div v-for="post in posts" :key="post.id" class="card">
+          <h3 class="text-xl font-semibold link" @click="showPost(post)">{{ post.title }}</h3>
+          <p class="text-sm text-gray-300 mt-1">{{ post.date }} · {{ post.tags.join(', ') }}</p>
+          <p class="mt-2 text-gray-100">{{ post.summary }}</p>
         </div>
       </section>
 
-      <!-- 资源 -->
-      <section id="resources" class="card" data-view hidden>
-        <h2>资源列表</h2>
-        <p style="color:var(--muted);margin-top:6px">文献、书籍、网站、研究人员等 — 用作资料收藏与外部书签。</p>
-        <div class="resources" id="resource-list" style="margin-top:12px">
-          <!-- JS 渲染资源 -->
+      <!-- 文章详情页 -->
+      <section v-if="currentView==='post'" class="card">
+        <button class="mb-4 text-blue-300 hover:underline" @click="currentView='home'">← 返回首页</button>
+        <article v-html="postContent" class="prose prose-invert max-w-none"></article>
+      </section>
+
+      <!-- 资源索引 -->
+      <section v-if="currentView==='resources'">
+        <h2 class="text-3xl font-bold mb-4">资源索引</h2>
+        <div v-for="r in resources" :key="r.url" class="card">
+          <h3 class="text-lg font-semibold">
+            <a :href="r.url" target="_blank" class="text-blue-300 hover:underline">{{ r.title }}</a>
+          </h3>
+          <p class="text-sm text-gray-300">{{ r.type }}</p>
         </div>
       </section>
 
-      <!-- 标签 -->
-      <section id="tags" class="card" data-view hidden>
-        <h2>标签</h2>
-        <p style="color:var(--muted);margin-top:6px">点击某个标签以查看相关记录。</p>
-        <div id="tag-cloud" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"></div>
+      <!-- 关于页面 -->
+      <section v-if="currentView==='about'" class="card">
+        <h2 class="text-3xl font-bold mb-2">关于本站</h2>
+        <p>本页用于个人研究笔记与资料索引的记录与展示。所有内容均为静态文件，可在 GitHub Pages 自动更新。</p>
       </section>
-
-      <!-- 联系 -->
-      <section id="contact" class="card" data-view hidden>
-        <h2>联系方式</h2>
-        <p style="color:var(--muted);margin-top:6px">欢迎使用该页面记录、收藏与交流。如需联系，请通过邮箱：</p>
-        <p style="margin-top:12px"><a href="mailto:qian.yi@example.com">qian.yi@example.com</a></p>
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
-        <p style="color:var(--muted)">说明：这是一个静态个人主页模板示例。把文章数据放到 <code>data.posts</code> 数组中即可管理。部署到 GitHub Pages 时，将文件放到仓库根目录并启用 Pages 即可。</p>
-      </section>
-
-      <footer>
-        © 2025 Qian Yi. Some rights reserved.
-      </footer>
     </main>
   </div>
 
   <script>
-    /* ----- 示例数据：把你自己的文章与资源替换到这里 ----- */
-    const data = {
-      posts: [
-        {id:1,title:'面料色彩感知建模——实验设计思路',summary:'说明样本制备、图像采集与色彩量化的初步方案。',date:'2025-08-01',tags:['色彩感知','数据集','实验']},
-        {id:2,title:'纺织品图文跨模态检索：研究进展笔记',summary:'整理近年的方法、评价指标与实际设计场景的需求差异。',date:'2025-07-15',tags:['检索','跨模态','综述']},
-        {id:3,title:'关于色彩情感标签构建的思路',summary:'基于市场语义关联的方法框架与样例说明。',date:'2025-06-21',tags:['情感标签','市场分析']}
-      ],
-      resources: [
-        {title:'CIE 色彩体系概述（官方）',url:'https://cie.co.at',type:'文献'},
-        {title:'《色彩设计原理》 —— 一本参考书',url:'https://example.com/book',type:'书籍'},
-        {title:'张三：纺织色彩研究人员主页',url:'https://example.edu/researcher',type:'研究人员'}
-      ]
-    }
-
-    /* 渲染文章列表 */
-    const postsEl = document.getElementById('posts');
-    function renderPosts(list){
-      if(!list || list.length===0){postsEl.innerHTML='<div class="empty">当前没有记录。点击「新建记录（演示）」添加示例。</div>';return}
-      // 按日期降序
-      list.sort((a,b)=> new Date(b.date) - new Date(a.date));
-      postsEl.innerHTML = list.map(p=>{
-        const tagHtml = (p.tags||[]).map(t=>`<span class="tag" data-tag="${t}">${t}</span>`).join('');
-        return `
-          <article class="card post" id="post-${p.id}">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start">
-              <div>
-                <h3 style="margin:0">${p.title}</h3>
-                <div class="meta">
-                  <time datetime="${p.date}">${p.date}</time>
-                </div>
-              </div>
-              <div style="font-size:13px;color:var(--muted);">${p.tags?p.tags.join(' · '):''}</div>
-            </div>
-            <p style="margin:6px 0 0;color:var(--muted)">${p.summary}</p>
-            <div style="margin-top:8px" class="tags">${tagHtml}</div>
-          </article>
-        `
-      }).join('\n');
-
-      // 标签点击跳转
-      document.querySelectorAll('[data-tag]').forEach(el=>{
-        el.addEventListener('click',()=>{
-          const tag = el.getAttribute('data-tag');
-          showTab('tags');
-          highlightTag(tag);
-        })
-      })
-    }
-
-    /* 渲染资源 */
-    function renderResources(){
-      const el = document.getElementById('resource-list');
-      if(!data.resources || data.resources.length===0){el.innerHTML='<div class="empty">暂无收藏的资源。</div>';return}
-      el.innerHTML = '<ul>'+data.resources.map(r=>`<li><strong>[${r.type}]</strong> <a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a></li>`).join('')+'</ul>';
-    }
-
-    /* 渲染标签云 */
-    function renderTags(){
-      const cloud = document.getElementById('tag-cloud');
-      const counts = {};
-      (data.posts||[]).forEach(p=> (p.tags||[]).forEach(t=> counts[t]= (counts[t]||0)+1));
-      const tags = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-      if(tags.length===0){cloud.innerHTML='<div class="empty">暂无标签。</div>';return}
-      cloud.innerHTML = tags.map(t=>`<button class="tag" data-tag="${t}" style="cursor:pointer">${t} (${counts[t]})</button>`).join(' ');
-      cloud.querySelectorAll('button[data-tag]').forEach(btn=>btn.addEventListener('click',()=>{
-        const tag = btn.getAttribute('data-tag');
-        highlightTag(tag);
-        showTab('home');
-        // 滚到首个相关文章
-        const first = document.querySelector(`#posts .tag[data-tag="${tag}"]`);
-        if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      }))
-    }
-
-    /* 标签高亮并过滤帖子 */
-    function highlightTag(tag){
-      const allTags = document.querySelectorAll('.tag');
-      allTags.forEach(t=> t.style.outline = '');
-      document.querySelectorAll(`.tag[data-tag=\"${tag}\"]`).forEach(el=> el.style.outline = '2px solid rgba(138,180,255,0.18)');
-      // 过滤显示包含该标签的文章
-      const filtered = data.posts.filter(p=> (p.tags||[]).includes(tag));
-      renderPosts(filtered);
-    }
-
-    // 导航切换
-    function showTab(name){
-      document.querySelectorAll('[data-view]').forEach(s=> s.hidden = s.id !== name);
-      document.querySelectorAll('.nav a').forEach(a=> a.classList.toggle('active', a.getAttribute('data-tab')===name));
-    }
-
-    document.querySelectorAll('.nav a').forEach(a=> a.addEventListener('click',(e)=>{
-      e.preventDefault(); const t = a.getAttribute('data-tab'); showTab(t);
-    }))
-
-    // 搜索
-    document.getElementById('filter-input').addEventListener('keydown', (e)=>{
-      if(e.key=== 'Enter'){
-        const q = e.target.value.trim().toLowerCase();
-        if(!q){ renderPosts(data.posts); return }
-        const filtered = data.posts.filter(p=> (p.title+p.summary+(p.tags||[]).join(' ')).toLowerCase().includes(q));
-        renderPosts(filtered);
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          currentView: 'home',
+          posts: [],
+          resources: [],
+          postContent: ''
+        }
+      },
+      methods: {
+        async loadPosts() {
+          const res = await fetch('posts/index.json');
+          this.posts = await res.json();
+        },
+        async loadResources() {
+          const res = await fetch('resources/index.json');
+          this.resources = await res.json();
+        },
+        async showPost(post) {
+          const res = await fetch(post.url);
+          const md = await res.text();
+          this.postContent = marked.parse(md);
+          this.currentView = 'post';
+          window.scrollTo(0, 0);
+        }
+      },
+      mounted() {
+        this.loadPosts();
+        this.loadResources();
       }
-    })
-
-    // 新建示例（演示）
-    document.getElementById('new-post').addEventListener('click',(e)=>{
-      e.preventDefault();
-      const id = Date.now();
-      data.posts.push({id,title:'新建示例：'+new Date().toLocaleString(),summary:'这是一个演示条目，请替换为你的内容。',date:new Date().toISOString().slice(0,10),tags:['草稿']});
-      renderPosts(data.posts);
-      showTab('home');
-    })
-
-    // 首次渲染
-    renderPosts(data.posts);
-    renderResources();
-    renderTags();
-
-    // 可选：把 data 导出到 localStorage（取消注释以启用）
-    // localStorage.setItem('qiy-data', JSON.stringify(data));
+    }).mount('#app');
   </script>
 </body>
 </html>
-
