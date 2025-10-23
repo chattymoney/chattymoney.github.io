@@ -3,45 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的资料收集站</title>
+    <title>知识收集库 - ChattyMoney</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-        h1 { color: #333; border-bottom: 1px solid #eee; }
-        section { margin-bottom: 30px; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #007acc; }
-        a { text-decoration: none; color: #007acc; }
-        a:hover { text-decoration: underline; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 50%, #2d1b69 100%);
+            color: #e0e0ff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 星空效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+            background-repeat: repeat;
+            z-index: -1;
+            animation: stars 60s linear infinite;
+        }
+
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem 1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .site-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .site-title h1 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .site-title p {
+            font-size: 0.9rem;
+            color: #a0a0ff;
+        }
+
+        .nav-tabs {
+            list-style: none;
+        }
+
+        .nav-tabs li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: #e0e0ff;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-tabs a:hover, .nav-tabs a.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        .nav-tabs .icon {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 文章卡片 */
+        .article-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            flex: 1;
+        }
+
+        .article-date {
+            color: #a0a0ff;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .article-abstract {
+            color: #c0c0ff;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(100, 100, 255, 0.3);
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 资源列表 */
+        .resource-category {
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .resource-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid #6464ff;
+        }
+
+        .resource-item a {
+            color: #6464ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+
+        .resource-desc {
+            color: #c0c0ff;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* 标签云 */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tag-cloud-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tag-cloud-item:hover {
+            background: rgba(100, 100, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .tag-count {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        /* 联系表单 */
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .email-link {
+            display: inline-block;
+            background: rgba(100, 100, 255, 0.3);
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .email-link:hover {
+            background: rgba(100, 100, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📚 我的资料库</h1>
-    <p>这里是用于收集和整理论文、书籍等学习资料的站点。</p>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <nav class="sidebar">
+            <div class="site-title">
+                <h1>🌌 知识收集库</h1>
+                <p>ChattyMoney's Digital Garden</p>
+            </div>
+            <ul class="nav-tabs">
+                <li><a href="#home" class="nav-link active" data-tab="home"><span class="icon">🏠</span> 主页</a></li>
+                <li><a href="#resources" class="nav-link" data-tab="resources"><span class="icon">📚</span> 资源列表</a></li>
+                <li><a href="#tags" class="nav-link" data-tab="tags"><span class="icon">🏷️</span> 标签</a></li>
+                <li><a href="#contact" class="nav-link" data-tab="contact"><span class="icon">📧</span> 联系方式</a></li>
+            </ul>
+        </nav>
 
-    <section id="papers">
-        <h2>📄 论文资料</h2>
-        <ul>
-            <li><a href="#">一篇关于机器学习的论文.pdf</a> - 收集于 2023.10</li>
-            <li><a href="#">另一篇重要的学术研究.docx</a> - 收集于 2023.11</li>
-            <!-- 你可以继续在这里添加更多的论文链接 -->
-        </ul>
-    </section>
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 主页 -->
+            <div id="home" class="tab-content active">
+                <h2 style="margin-bottom: 1.5rem; color: #fff;">最新文档</h2>
+                
+                <div class="article-card">
+                    <div class="article-header">
+                        <h3 class="article-title">机器学习在金融风控中的应用研究</h3>
+                        <span class="article-date">2025-01-15</span>
+                    </div>
+                    <p class="article-abstract">本文探讨了机器学习算法在金融风险控制领域的应用现状和发展趋势，重点分析了深度学习模型在信用评分和欺诈检测中的表现...</p>
+                    <div class="article-tags">
+                        <span class="tag">机器学习</span>
+                        <span class="tag">金融科技</span>
+                        <span class="tag">风险控制</span>
+                    </div>
+                </div>
 
-    <section id="books">
-        <h2>📖 书籍资料</h2>
-        <ul>
-            <li><a href="#">《深入理解计算机系统》读书笔记</a></li>
-            <li><a href="#">《设计心理学》核心观点梳理</a></li>
-            <!-- 你可以继续在这里添加更多的书籍链接 -->
-        </ul>
-    </section>
+                <div class="article-card">
+                    <div class="article-header">
+                        <h3 class="article-title">区块链技术原理与发展综述</h3>
+                        <span class="article-date">2025-01-12</span>
+                    </div>
+                    <p class="article-abstract">全面梳理区块链技术的核心原理、关键技术组件以及在各行业的应用案例，并对未来技术发展方向进行展望...</p>
+                    <div class="article-tags">
+                        <span class="tag">区块链</span>
+                        <span class="tag">分布式系统</span>
+                        <span class="tag">加密货币</span>
+                    </div>
+                </div>
 
-    <footer>
-        <p><small>最后更新于: <span id="date"></span></small></p>
+                <div class="article-card">
+                    <div class="article-header">
+                        <h3 class="article-title">用户界面设计心理学研究</h3>
+                        <span class="article-date">2025-01-08</span>
+                    </div>
+                    <p class="article-abstract">从认知心理学角度分析用户界面设计原则，探讨如何通过设计提升用户体验和产品可用性...</p>
+                    <div class="article-tags">
+                        <span class="tag">UI设计</span>
+                        <span class="tag">心理学</span>
+                        <span class="tag">用户体验</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 资源列表 -->
+            <div id="resources" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #fff;">资源收藏</h2>
+                
+                <div class="resource-category">
+                    <h3 class="category-title">📄 学术文献</h3>
+                    <div class="resource-item">
+                        <a href="https://arxiv.org/" target="_blank">arXiv.org</a>
+                        <p class="resource-desc">开放获取的学术论文预印本平台，涵盖物理、数学、计算机科学等学科</p>
+                    </div>
+                    <div class="resource-item">
+                        <a href="https://scholar.google.com/" target="_blank">Google Scholar</a>
+                        <p class="resource-desc">学术搜索引擎，可搜索学术文献、论文、书籍等</p>
+                    </div>
+                </div>
+
+                <div class="resource-category">
+                    <h3 class="category-title">📖 推荐书籍</h3>
+                    <div class="resource-item">
+                        <a href="https://book.douban.com/subject/30412317/" target="_blank">《深度学习》</a>
+                        <p class="resource-desc">Ian Goodfellow等人著作，深度学习领域的经典教材</p>
+                    </div>
+                    <div class="resource-item">
+                        <a href="https://book.douban.com/subject/30296181/" target="_blank">《计算机程序设计艺术》</a>
+                        <p class="resource-desc">Donald Knuth的经典著作，算法领域的圣经</p>
+                    </div>
+                </div>
+
+                <div class="resource-category">
+                    <h3 class="category-title">🔗 实用网站</h3>
+                    <div class="resource-item">
+                        <a href="https://github.com/" target="_blank">GitHub</a>
+                        <p class="resource-desc">代码托管平台，开源项目聚集地</p>
+                    </div>
+                    <div class="resource-item">
+                        <a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a>
+                        <p class="resource-desc">程序员问答社区，解决编程问题的好去处</p>
+                    </div>
+                </div>
+
+                <div class="resource-category">
+                    <h3 class="category-title">👨‍🔬 研究人员</h3>
+                    <div class="resource-item">
+                        <a href="https://scholar.google.com/citations?user=XN8VaH0AAAAJ" target="_blank">Yann LeCun</a>
+                        <p class="resource-desc">深度学习先驱，Facebook AI研究院主任</p>
+                    </div>
+                    <div class="resource-item">
+                        <a href="https://scholar.google.com/citations?user=0NXyElUAAAAJ" target="_blank">Andrew Ng</a>
+                        <p class="resource-desc">斯坦福大学教授，Coursera联合创始人</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标签 -->
+            <div id="tags" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #fff;">标签云</h2>
+                <div class="tag-cloud">
+                    <div class="tag-cloud-item">机器学习 <span class="tag-count">12</span></div>
+                    <div class="tag-cloud-item">深度学习 <span class="tag-count">8</span></div>
+                    <div class="tag-cloud-item">人工智能 <span class="tag-count">15</span></div>
+                    <div class="tag-cloud-item">区块链 <span class="tag-count">6</span></div>
+                    <div class="tag-cloud-item">金融科技 <span class="tag-count">9</span></div>
+                    <div class="tag-cloud-item">数据科学 <span class="tag-count">11</span></div>
+                    <div class="tag-cloud-item">编程 <span class="tag-count">14</span></div>
+                    <div class="tag-cloud-item">算法 <span class="tag-count">10</span></div>
+                    <div class="tag-cloud-item">UI设计 <span class="tag-count">7</span></div>
+                    <div class="tag-cloud-item">心理学 <span class="tag-count">5</span></div>
+                    <div class="tag-cloud-item">分布式系统 <span class="tag-count">4</span></div>
+                    <div class="tag-cloud-item">加密货币 <span class="tag-count">3</span></div>
+                </div>
+            </div>
+
+            <!-- 联系方式 -->
+            <div id="contact" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #fff;">联系我</h2>
+                
+                <div class="contact-info">
+                    <p>欢迎对我的研究或收集的资料感兴趣的朋友与我联系！我主要关注机器学习、区块链技术和金融科技等领域。</p>
+                    
+                    <p>如果你有任何问题、建议，或者想要讨论相关技术话题，都可以通过以下方式联系我：</p>
+                    
+                    <p>我通常会在一周内回复邮件。如果是学术合作或项目讨论，请简要说明你的背景和合作意向。</p>
+                    
+                    <p style="margin-top: 2rem;">
+                        <a href="mailto:chattymoney@example.com" class="email-link">
+                            📧 chattymoney@example.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2025 Qian Yi. Some rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">知识因分享而更有价值</p>
     </footer>
 
     <script>
-        document.getElementById('date').textContent = new Date().toLocaleDateString();
+        // 标签切换功能
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 移除所有活跃状态
+                document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                
+                // 添加当前活跃状态
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 标签点击功能（可以扩展为筛选文章）
+        document.querySelectorAll('.tag-cloud-item').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const tagName = this.textContent.split(' ')[0];
+                alert(`点击了标签: ${tagName}\n未来可以在这里实现按标签筛选文章的功能`);
+                // 这里可以扩展为跳转到主页并筛选对应标签的文章
+            });
+        });
     </script>
 </body>
 </html>
