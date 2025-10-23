@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的资料收集站</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 1px solid #eee; }
+        section { margin-bottom: 30px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #007acc; }
+        a { text-decoration: none; color: #007acc; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>📚 我的资料库</h1>
+    <p>这里是用于收集和整理论文、书籍等学习资料的站点。</p>
+
+    <section id="papers">
+        <h2>📄 论文资料</h2>
+        <ul>
+            <li><a href="#">一篇关于机器学习的论文.pdf</a> - 收集于 2023.10</li>
+            <li><a href="#">另一篇重要的学术研究.docx</a> - 收集于 2023.11</li>
+            <!-- 你可以继续在这里添加更多的论文链接 -->
+        </ul>
+    </section>
+
+    <section id="books">
+        <h2>📖 书籍资料</h2>
+        <ul>
+            <li><a href="#">《深入理解计算机系统》读书笔记</a></li>
+            <li><a href="#">《设计心理学》核心观点梳理</a></li>
+            <!-- 你可以继续在这里添加更多的书籍链接 -->
+        </ul>
+    </section>
+
+    <footer>
+        <p><small>最后更新于: <span id="date"></span></small></p>
+    </footer>
+
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>
