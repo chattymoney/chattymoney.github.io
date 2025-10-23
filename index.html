@@ -1,147 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qian Yi — Notes & Research</title>
-<!-- marked.js：渲染 Markdown -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<style>
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: "Noto Sans SC", sans-serif;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Qian Yi — 记录与资料</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#03041a;
+      --panel: rgba(255,255,255,0.04);
+      --muted: rgba(255,255,255,0.6);
+      --accent: #8ab4ff;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      color-scheme: dark;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#e6eef8}
+    /* 星空背景 */
+    html,body{
+  height:100%;
+  margin:0;
   background: url('assets/bg-stars.jpg') no-repeat center center fixed;
   background-size: cover;
-  color: #e6eef8;
+  color:#e6eef8;
 }
 
-/* 布局 */
-main {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-}
+    .container{display:grid;grid-template-columns:260px 1fr;gap:28px;max-width:1200px;margin:36px auto;padding:24px}
 
-aside {
-  width: 220px;
-  background: rgba(20, 24, 38, 0.8);
-  padding: 1rem;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.3);
-}
+    /* 左侧导航 */
+    .nav{background:var(--panel);border-radius:var(--radius);padding:20px;height:calc(100vh - 72px);box-shadow: 0 6px 30px rgba(3,4,26,0.6);position:sticky;top:36px;overflow:auto}
+    .logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7b61ff,#3ac7ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    .name{font-weight:600}
+    .nav a{display:block;padding:10px 12px;border-radius:10px;color:var(--muted);text-decoration:none;margin:6px 0}
+    .nav a.active, .nav a:hover{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#fff}
+    .nav .section-title{font-size:12px;color:var(--muted);margin:14px 2px 6px}
 
-aside h1 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: #fff;
-}
+    /* 右侧主体 */
+    main{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);min-height:70vh}
+    header.main-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    header.main-head h1{margin:0;font-size:20px}
+    header.main-head p{margin:0;color:var(--muted);font-size:13px}
 
-nav a {
-  display: block;
-  color: #c5d0e6;
-  text-decoration: none;
-  padding: 0.4rem 0;
-  border-left: 3px solid transparent;
-}
-nav a:hover {
-  color: #fff;
-  border-left: 3px solid #5aa9e6;
-}
+    .card{background:var(--glass);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 4px 18px rgba(2,6,23,0.5)}
 
-/* 主区 */
-section[data-view] {
-  flex: 1;
-  overflow-y: auto;
-  padding: 2rem;
-  backdrop-filter: blur(10px);
-}
+    /* 帖子列表 */
+    .post{display:flex;flex-direction:column;gap:8px}
+    .post .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--muted)}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
 
-/* 卡片风格 */
-.card {
-  background: rgba(255,255,255,0.08);
-  padding: 1.2rem;
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 6px rgba(0,0,0,0.3);
-}
+    /* 资源列表 */
+    .resources ul{list-style:none;padding:0;margin:0}
+    .resources li{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent}
+    .resources a{color:var(--accent);text-decoration:none}
 
-.card h2 {
-  margin: 0;
-  color: #fff;
-  cursor: pointer;
-}
+    /* 布局在窄屏 */
+    @media (max-width:880px){
+      .container{grid-template-columns:1fr;padding:16px}
+      .nav{position:relative;height:auto;display:flex;gap:8px;overflow:auto}
+      .nav a{white-space:nowrap}
+    }
 
-.card p {
-  margin: 0.3rem 0 0.5rem 0;
-  color: #cfd8e6;
-}
+    footer{margin-top:18px;padding:14px;color:var(--muted);font-size:13px;text-align:center}
 
-.meta {
-  font-size: 0.8rem;
-  color: #9fb3d0;
-}
+    /* 小交互 */
+    .search{display:flex;gap:8px;align-items:center}
+    .search input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:inherit}
 
-/* Markdown 渲染样式 */
-#post-detail h1, #post-detail h2, #post-detail h3 {
-  color: #fff;
-}
-#post-detail p {
-  color: #cfd8e6;
-  line-height: 1.6;
-}
-#post-detail pre {
-  background: rgba(255,255,255,0.1);
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-}
-
-/* 隐藏与切换 */
-[hidden] { display: none; }
-</style>
+    /* 空状态 */
+    .empty{color:var(--muted);padding:24px;text-align:center}
+  </style>
 </head>
-
 <body>
-<main>
-  <aside>
-    <h1>Qian Yi</h1>
-    <nav>
-      <a href="#" onclick="showView('home')">首页</a>
-      <a href="#" onclick="showView('resources')">资源</a>
-      <a href="#" onclick="showView('about')">关于</a>
-    </nav>
-  </aside>
+  <div class="nebula" aria-hidden></div>
+  <div class="container">
+    <aside class="nav" role="navigation" aria-label="主导航">
+      <div class="logo">
+        <div>
+          <div class="name">Qian Yi</div>
+          <div style="font-size:12px;color:var(--muted)">学习 · 记录 · 分享</div>
+        </div>
+      </div>
 
-  <section id="home" class="card" data-view>
-    <h2>最新笔记</h2>
-    <div id="post-list"></div>
-  </section>
+      <nav>
+        <a href="#home" class="active" data-tab="home">🏠 主页</a>
+        <a href="#resources" data-tab="resources">📚 资源列表</a>
+        <a href="#tags" data-tab="tags">🏷️ 标签</a>
+        <a href="#contact" data-tab="contact">✉️ 联系方式</a>
+      </nav>
 
-  <section id="post-detail" class="card" data-view hidden></section>
+      </aside>
 
-  <section id="resources" class="card" data-view hidden>
-    <h2>资源列表</h2>
-    <div id="resource-list"></div>
-  </section>
+    <main id="app" role="main">
+      <!-- 主页 -->
+      <section id="home" class="card" data-view>
+        <header class="main-head">
+          <div>
+            <h1>最新记录</h1>
+            <p>按更新日期排列 — 最近的记录显示在上方</p>
+          </div>
+          <div class="search">
+            <input id="filter-input" placeholder="搜索标题或摘要 / 按回车过滤" aria-label="搜索记录">
+          </div>
+        </header>
 
-  <section id="about" class="card" data-view hidden>
-    <h2>关于本站</h2>
-    <p>这里记录了我的研究笔记、思考与项目进展，涉及纺织品色彩感知、跨模态检索与AI+设计方向。</p>
-  </section>
-</main>
+        <div id="posts" aria-live="polite">
+          <!-- JS 渲染文章列表 -->
+        </div>
+      </section>
 
-<script>
-const data = { posts: [], resources: [] };
+      <!-- 资源 -->
+      <section id="resources" class="card" data-view hidden>
+        <h2>资源列表</h2>
+        <p style="color:var(--muted);margin-top:6px">文献、书籍、网站、研究人员等 — 用作资料收藏与外部书签。</p>
+        <div class="resources" id="resource-list" style="margin-top:12px">
+          <!-- JS 渲染资源 -->
+        </div>
+      </section>
 
-// 切换视图
-function showView(viewId) {
-  document.querySelectorAll('[data-view]').forEach(sec => sec.hidden = true);
-  document.getElementById(viewId).hidden = false;
-  if (viewId === 'home') renderPosts();
-  if (viewId === 'resources') renderResources();
-}
+      <!-- 标签 -->
+      <section id="tags" class="card" data-view hidden>
+        <h2>标签</h2>
+        <p style="color:var(--muted);margin-top:6px">点击某个标签以查看相关记录。</p>
+        <div id="tag-cloud" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"></div>
+      </section>
 
-// 加载文章索引
+      <!-- 联系 -->
+      <section id="contact" class="card" data-view hidden>
+        <h2>联系方式</h2>
+        <p style="color:var(--muted);margin-top:6px">欢迎使用该页面记录、收藏与交流。如需联系，请通过邮箱：</p>
+        <p style="margin-top:12px"><a href="mailto:qian.yi@example.com">qian.yi@example.com</a></p>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:14px 0">
+        <p style="color:var(--muted)">说明：这是一个静态个人主页模板示例。把文章数据放到 <code>data.posts</code> 数组中即可管理。部署到 GitHub Pages 时，将文件放到仓库根目录并启用 Pages 即可。</p>
+      </section>
+
+      <footer>
+        © 2025 Qian Yi. Some rights reserved.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    /* ----- 示例数据：把你自己的文章与资源替换到这里 ----- */
+    // 加载文章索引
 async function loadPosts() {
   try {
     const res = await fetch('posts/index.json');
@@ -151,25 +156,7 @@ async function loadPosts() {
     document.getElementById('post-list').innerHTML = '<p>无法加载文章索引。</p>';
   }
 }
-
-// 渲染文章列表
-function renderPosts() {
-  const list = document.getElementById('post-list');
-  list.innerHTML = '';
-  data.posts.sort((a,b) => new Date(b.date) - new Date(a.date));
-  data.posts.forEach(post => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
-      <h2 onclick="showPostDetail('${post.url}')">${post.title}</h2>
-      <p>${post.summary}</p>
-      <div class="meta">${post.date}｜${post.tags.join(' / ')}</div>
-    `;
-    list.appendChild(div);
-  });
-}
-
-// 加载 Markdown 并渲染
+  // 加载 Markdown 并渲染
 async function showPostDetail(url) {
   const sec = document.getElementById('post-detail');
   document.querySelectorAll('[data-view]').forEach(s => s.hidden = true);
@@ -182,7 +169,6 @@ async function showPostDetail(url) {
     sec.innerHTML = '<p>无法加载文章内容。</p>';
   }
 }
-
 // 加载资源列表
 async function loadResources() {
   try {
@@ -193,25 +179,104 @@ async function loadResources() {
   }
 }
 
-// 渲染资源
-function renderResources() {
-  const list = document.getElementById('resource-list');
-  list.innerHTML = '';
-  if (data.resources.length === 0) {
-    list.innerHTML = '<p>暂无资源。</p>';
-    return;
-  }
-  data.resources.forEach(r => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `<strong>${r.type || '资源'}</strong>：<a href="${r.url}" target="_blank">${r.title}</a>`;
-    list.appendChild(div);
-  });
-}
+    /* 渲染文章列表 */
+    const postsEl = document.getElementById('posts');
+    function renderPosts(list){
+      if(!list || list.length===0){postsEl.innerHTML='<div class="empty">当前没有记录。点击「新建记录（演示）」添加示例。</div>';return}
+      // 按日期降序
+      list.sort((a,b)=> new Date(b.date) - new Date(a.date));
+      postsEl.innerHTML = list.map(p=>{
+        const tagHtml = (p.tags||[]).map(t=>`<span class="tag" data-tag="${t}">${t}</span>`).join('');
+        return `
+          <article class="card post" id="post-${p.id}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <h3 style="margin:0">${p.title}</h3>
+                <div class="meta">
+                  <time datetime="${p.date}">${p.date}</time>
+                </div>
+              </div>
+              <div style="font-size:13px;color:var(--muted);">${p.tags?p.tags.join(' · '):''}</div>
+            </div>
+            <p style="margin:6px 0 0;color:var(--muted)">${p.summary}</p>
+            <div style="margin-top:8px" class="tags">${tagHtml}</div>
+          </article>
+        `
+      }).join('\n');
 
-// 初始化
-loadPosts();
-loadResources();
-</script>
+      // 标签点击跳转
+      document.querySelectorAll('[data-tag]').forEach(el=>{
+        el.addEventListener('click',()=>{
+          const tag = el.getAttribute('data-tag');
+          showTab('tags');
+          highlightTag(tag);
+        })
+      })
+    }
+
+    /* 渲染资源 */
+    function renderResources(){
+      const el = document.getElementById('resource-list');
+      if(!data.resources || data.resources.length===0){el.innerHTML='<div class="empty">暂无收藏的资源。</div>';return}
+      el.innerHTML = '<ul>'+data.resources.map(r=>`<li><strong>[${r.type}]</strong> <a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a></li>`).join('')+'</ul>';
+    }
+
+    /* 渲染标签云 */
+    function renderTags(){
+      const cloud = document.getElementById('tag-cloud');
+      const counts = {};
+      (data.posts||[]).forEach(p=> (p.tags||[]).forEach(t=> counts[t]= (counts[t]||0)+1));
+      const tags = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+      if(tags.length===0){cloud.innerHTML='<div class="empty">暂无标签。</div>';return}
+      cloud.innerHTML = tags.map(t=>`<button class="tag" data-tag="${t}" style="cursor:pointer">${t} (${counts[t]})</button>`).join(' ');
+      cloud.querySelectorAll('button[data-tag]').forEach(btn=>btn.addEventListener('click',()=>{
+        const tag = btn.getAttribute('data-tag');
+        highlightTag(tag);
+        showTab('home');
+        // 滚到首个相关文章
+        const first = document.querySelector(`#posts .tag[data-tag="${tag}"]`);
+        if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+      }))
+    }
+
+    /* 标签高亮并过滤帖子 */
+    function highlightTag(tag){
+      const allTags = document.querySelectorAll('.tag');
+      allTags.forEach(t=> t.style.outline = '');
+      document.querySelectorAll(`.tag[data-tag=\"${tag}\"]`).forEach(el=> el.style.outline = '2px solid rgba(138,180,255,0.18)');
+      // 过滤显示包含该标签的文章
+      const filtered = data.posts.filter(p=> (p.tags||[]).includes(tag));
+      renderPosts(filtered);
+    }
+
+    // 导航切换
+    function showTab(name){
+      document.querySelectorAll('[data-view]').forEach(s=> s.hidden = s.id !== name);
+      document.querySelectorAll('.nav a').forEach(a=> a.classList.toggle('active', a.getAttribute('data-tab')===name));
+    }
+
+    document.querySelectorAll('.nav a').forEach(a=> a.addEventListener('click',(e)=>{
+      e.preventDefault(); const t = a.getAttribute('data-tab'); showTab(t);
+    }))
+
+    // 搜索
+    document.getElementById('filter-input').addEventListener('keydown', (e)=>{
+      if(e.key=== 'Enter'){
+        const q = e.target.value.trim().toLowerCase();
+        if(!q){ renderPosts(data.posts); return }
+        const filtered = data.posts.filter(p=> (p.title+p.summary+(p.tags||[]).join(' ')).toLowerCase().includes(q));
+        renderPosts(filtered);
+      }
+    })
+
+
+    // 首次渲染
+    renderPosts(data.posts);
+    renderResources();
+    renderTags();
+
+    // 可选：把 data 导出到 localStorage（取消注释以启用）
+    // localStorage.setItem('qiy-data', JSON.stringify(data));
+  </script>
 </body>
 </html>
