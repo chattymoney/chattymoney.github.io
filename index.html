@@ -19,23 +19,22 @@
       color-scheme: dark;
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: url("assets/bg-stars.jpg") no-repeat center center fixed;
-      background-size: cover;
-      color: #e6eef8;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 28px;
-      max-width: 1200px;
-      margin: 36px auto;
-      padding: 24px;
-    }
-
+    html,body{height:100%;margin:0;background:var(--bg);color:#e6eef8}
+    /* 星空背景 */
+    body::before{
+      content:'';position:fixed;inset:0;z-index:-2;
+      background: radial-gradient(ellipse at 20% 10%, rgba(255,255,255,0.03) 0px, transparent 1px),
+                  radial-gradient(ellipse at 80% 40%, rgba(255,255,255,0.02) 0px, transparent 1px);
+      background-size: 2px 2px, 3px 3px;
+      opacity:0.9;
+     }
+    /* 轻微动感星云 */
+    .nebula{position:fixed;inset:0;z-index:-3;filter:blur(40px);opacity:0.35;background:
+      radial-gradient(circle at 10% 20%, rgba(120,90,200,0.18), transparent 8%),
+      radial-gradient(circle at 80% 80%, rgba(70,140,200,0.14), transparent 12%);
+     }
+   .container{display:grid;grid-template-columns:260px 1fr;gap:28px;max-width:1200px;margin:36px auto;padding:24px}
+   
     /* 左侧导航 */
     .nav {
       background: var(--panel);
