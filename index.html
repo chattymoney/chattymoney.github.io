@@ -306,37 +306,9 @@
     // 加载图片库数据
     async function loadGallery() {
       try {
-        // 这里使用示例数据，实际使用时应从服务器获取
-        const exampleImages = [
-          {
-            "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "壮丽的山脉景色，云雾缭绕，阳光穿过云层洒在山脊上。"
-          },
-          {
-            "url": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "城市夜景，灯火辉煌，车流如织，展现现代都市的繁华。"
-          },
-          {
-            "url": "https://images.unsplash.com/photo-1543857778-c4a1a569e358?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "宁静的湖泊，水面如镜，倒映着蓝天白云和周围的树木。"
-          },
-          {
-            "url": "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "抽象艺术创作，色彩斑斓，线条流动，充满想象空间。"
-          },
-          {
-            "url": "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "秋日森林，金黄的树叶铺满地面，阳光穿过树梢形成斑驳光影。"
-          },
-          {
-            "url": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "description": "壮观的日出景色，金色的阳光洒在云海之上，美不胜收。"
-          }
-        ];
         
-        // 实际使用时，取消注释下面的代码，并删除上面的示例数据
-        // const res = await fetch('gallery/index.json');
-        // const images = await res.json();
+        const res = await fetch('gallery/index.json');
+        const images = await res.json();
         
         renderGallery(exampleImages);
       } catch(e) {
