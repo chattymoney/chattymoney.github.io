@@ -1,10 +1,10 @@
 [
   {
-    "url": "gallery/images/image1.jpg",
+    "url": "images/image1.jpg",
     "description": "示例图片1"
   },
   {
-    "url": "gallery/images/image1.jpg",
+    "url": "images/image1.jpg",
     "description": "示例图片2"
   }
 ]
