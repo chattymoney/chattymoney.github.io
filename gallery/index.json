@@ -1,14 +1,10 @@
 [
   {
     "url": "gallery/images/image1.jpg",
-    "description": "示例。"
+    "description": "示例图片1"
   },
   {
-    "url": "gallery/images/image2.jpg",
-    "description": "城市夜景，灯火辉煌，车流如织，展现现代都市的繁华。"
-  },
-  {
-    "url": "gallery/images/image3.jpg",
-    "description": "宁静的湖泊，水面如镜，倒映着蓝天白云和周围的树木。"
+    "url": "gallery/images/image1.jpg",
+    "description": "示例图片2"
   }
 ]
