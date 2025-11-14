@@ -304,14 +304,14 @@
     }
 
     // 加载图片库数据
-   async function loadGallery() {
-   try {
-    const res = await fetch('gallery/index.json');
-    const images = await res.json();
-    renderGallery(images);
-    } catch(e) {
-    document.getElementById('gallery-container').innerHTML = '<div class="empty">无法加载图片库。</div>';
-    }
+    async function loadGallery() {
+      try {
+        const res = await fetch('gallery/index.json');
+        const images = await res.json();
+        renderGallery(images);
+      } catch(e) {
+        document.getElementById('gallery-container').innerHTML = '<div class="empty">无法加载图片库。</div>';
+      }
     }
 
     // 渲染瀑布流图片库
